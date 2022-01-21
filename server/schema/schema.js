@@ -4,8 +4,19 @@ const Book = require("../modal/book");
 const Author = require("../modal/author");
 const mongoose = require("mongoose");
 
-const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID, GraphQLInt, GraphQLList, GraphQLNonNull } = graphql;
-mongoose.connect("mongodb+srv://Vanillachoco7:V7QAwQe9UAKsh2F@cluster0.q38bu.mongodb.net/graphqlDB", { useNewUrlParser: true, useUnifiedTopology: true });
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLSchema,
+  GraphQLID,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLNonNull,
+} = graphql;
+mongoose.connect(
+  `mongodb+srv://${process.env.USER_NAME}:${process.env.PASSWORD}@cluster0.q38bu.mongodb.net/graphqlDB`,
+  { useNewUrlParser: true, useUnifiedTopology: true }
+);
 mongoose.connection.once("open", () => {
   console.log("connected to database");
 });
@@ -97,7 +108,10 @@ const Mutation = new GraphQLObjectType({
   fields: {
     addauthor: {
       type: AuthorType,
-      args: { name: { type: new GraphQLNonNull(GraphQLString) }, age: { type: new GraphQLNonNull(GraphQLInt) } },
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        age: { type: new GraphQLNonNull(GraphQLInt) },
+      },
       resolve(parent, args) {
         let author = new Author({
           name: args.name,
@@ -108,7 +122,11 @@ const Mutation = new GraphQLObjectType({
     },
     addbook: {
       type: BookType,
-      args: { name: { type: new GraphQLNonNull(GraphQLString) }, genre: { type: new GraphQLNonNull(GraphQLString) }, authorid: { type: new GraphQLNonNull(GraphQLID) } },
+      args: {
+        name: { type: new GraphQLNonNull(GraphQLString) },
+        genre: { type: new GraphQLNonNull(GraphQLString) },
+        authorid: { type: new GraphQLNonNull(GraphQLID) },
+      },
       resolve(parent, args) {
         let book = new Book({
           name: args.name,
