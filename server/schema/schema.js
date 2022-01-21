@@ -3,6 +3,7 @@ const _ = require("lodash");
 const Book = require("../modal/book");
 const Author = require("../modal/author");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const {
   GraphQLObjectType,
